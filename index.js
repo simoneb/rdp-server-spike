@@ -30,7 +30,7 @@ server.on('message', (msg, rinfo) => {
 
   forIn(({address, port}) => {
 
-    if (address !== rinfo.address) // suppress echo
+    if (address !== rinfo.address && port !== rinfo.port) // suppress echo
       server.send(msg, port, address, err => {
         if (err) return console.error(err)
         dlog('delivered message to %s:%d', address, port)
