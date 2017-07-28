@@ -19,13 +19,17 @@ function cleanupSockets () {
 setInterval(cleanupSockets, 10000)
 
 server.on('error', (err) => {
-  dlog(`server error:\n${err.stack}`)
+  console.error(`server error:\n${err.stack}`)
   server.close()
 })
 
 server.on('message', (msg, rinfo) => {
-  socketsByAddress[`${rinfo.address}-${rinfo.port}`] =
-      {address: rinfo.address, port: rinfo.port, lastSeen: Date.now()}
+  if(!socketsByAddress[`${rinfo.address}-${rinfo.port}`]) {
+    console.log(`registering new client ${rinfo.address}:${rinfo.port}`)
+
+    socketsByAddress[`${rinfo.address}-${rinfo.port}`] =
+        {address: rinfo.address, port: rinfo.port, lastSeen: Date.now()}
+  }
 
   dlog('received message from %s:%d', rinfo.address, rinfo.port)
 
