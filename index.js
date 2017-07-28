@@ -29,12 +29,13 @@ server.on('message', (msg, rinfo) => {
 
     socketsByAddress[`${rinfo.address}-${rinfo.port}`] =
         {address: rinfo.address, port: rinfo.port, lastSeen: Date.now()}
+  } else {
+    socketsByAddress[`${rinfo.address}-${rinfo.port}`].lastSeen = Date.now()
   }
 
   dlog('received message from %s:%d', rinfo.address, rinfo.port)
 
   forIn(({address, port}) => {
-
     if (address !== rinfo.address && port !== rinfo.port) // suppress echo
       server.send(msg, port, address, err => {
         if (err) return console.error(err)
