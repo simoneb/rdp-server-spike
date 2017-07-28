@@ -24,7 +24,8 @@ server.on('error', (err) => {
 })
 
 server.on('message', (msg, rinfo) => {
-  socketsByAddress[rinfo.address] = {address: rinfo.address, port: rinfo.port, lastSeen: Date.now()}
+  socketsByAddress[`${rinfo.address}-${rinfo.port}`] =
+      {address: rinfo.address, port: rinfo.port, lastSeen: Date.now()}
 
   dlog('received message from %s:%d', rinfo.address, rinfo.port)
 
