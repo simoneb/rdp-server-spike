@@ -7,6 +7,7 @@ const server = dgram.createSocket('udp4')
 const dlog = throttle(2000)(console.log)
 
 const lastSeenTimeout = 10000
+const suppressEcho = false
 
 function cleanupSockets () {
   const now = Date.now()
@@ -36,7 +37,7 @@ server.on('message', (msg, rinfo) => {
   dlog('received message from %s:%d', rinfo.address, rinfo.port)
 
   forIn(({address, port}) => {
-    if (address !== rinfo.address && port !== rinfo.port) // suppress echo
+    if (suppressEcho && address !== rinfo.address && port !== rinfo.port) // suppress echo
       server.send(msg, port, address, err => {
         if (err) return console.error(err)
         dlog('delivered message to %s:%d', address, port)
