@@ -37,11 +37,12 @@ server.on('message', (msg, rinfo) => {
   dlog('received message from %s:%d', rinfo.address, rinfo.port)
 
   forIn(({address, port}) => {
-    if (!suppressEcho && address !== rinfo.address && port !== rinfo.port) // suppress echo
-      server.send(msg, port, address, err => {
-        if (err) return console.error(err)
-        dlog('delivered message to %s:%d', address, port)
-      })
+    if (suppressEcho && address !== rinfo.address && port !== rinfo.port) return
+    
+    server.send(msg, port, address, err => {
+      if (err) return console.error(err)
+      dlog('delivered message to %s:%d', address, port)
+    })
   })(socketsByAddress)
 })
 
