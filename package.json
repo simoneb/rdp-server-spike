@@ -11,7 +11,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "chance": "^1.0.11",
     "lodash": "^4.17.4",
-    "nodemon": "^1.11.0"
+    "node-rtp": "^0.1.1",
+    "nodemon": "^1.11.0",
+    "rtp-parser": "^1.0.0"
   }
 }
